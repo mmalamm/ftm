@@ -1,10 +1,16 @@
 import React, { Component } from "react";
+import MeetupDashboard from "../../features/meetup/MeetupDashboard/MeetupDashboard";
+import NavBar from "../../features/nav/NavBar/NavBar";
+import { Container } from "semantic-ui-react";
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <h1 className="App-title">Welcome to FTM!</h1>
+      <div>
+        <NavBar />
+        <Container className="main">
+          <MeetupDashboard />
+        </Container>
       </div>
     );
   }
