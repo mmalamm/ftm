@@ -3,6 +3,8 @@ import { Grid, Button } from "semantic-ui-react";
 import MeetupList from "../MeetupList/MeetupList";
 import MeetupForm from "../MeetupForm/MeetupForm";
 
+import cuid from "cuid";
+
 const meetupsData = [
   {
     id: "1",
@@ -71,6 +73,16 @@ class MeetupDashboard extends Component {
       isOpen: false
     });
   };
+
+  handleCreateMeetup = newMeetup => {
+    newMeetup.id = cuid();
+    newMeetup.hostPhotoURL = "/assets/user.png";
+    const updatedMeetups = [...this.state.meetups, newMeetup];
+    this.setState({
+      meetups: updatedMeetups,
+      isOpen: false
+    });
+  };
   render() {
     return (
       <Grid>
@@ -83,7 +95,12 @@ class MeetupDashboard extends Component {
             positive
             content="Create Meetup"
           />
-          {this.state.isOpen && <MeetupForm handleCancel={this.handleCancel} />}
+          {this.state.isOpen && (
+            <MeetupForm
+              createMeetup={this.handleCreateMeetup}
+              handleCancel={this.handleCancel}
+            />
+          )}
         </Grid.Column>
       </Grid>
     );

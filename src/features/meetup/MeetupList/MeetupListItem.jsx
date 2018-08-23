@@ -28,9 +28,10 @@ export class MeetupListItem extends Component {
         </Segment>
         <Segment secondary>
           <List horizontal>
-            {meetup.attendees.map(attendee => (
-              <MeetupListAttendee key={attendee.id} attendee={attendee} />
-            ))}
+            {meetup.attendees &&
+              meetup.attendees.map(attendee => (
+                <MeetupListAttendee key={attendee.id} attendee={attendee} />
+              ))}
           </List>
         </Segment>
         <Segment clearing>
