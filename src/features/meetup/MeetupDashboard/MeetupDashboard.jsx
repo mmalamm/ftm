@@ -55,15 +55,35 @@ const meetupsData = [
 ];
 
 class MeetupDashboard extends Component {
+  state = {
+    meetups: meetupsData,
+    isOpen: false
+  };
+
+  handleFormOpen = () => {
+    this.setState({
+      isOpen: true
+    });
+  };
+
+  handleCancel = () => {
+    this.setState({
+      isOpen: false
+    });
+  };
   render() {
     return (
       <Grid>
         <Grid.Column width={10}>
-          <MeetupList meetups={meetupsData} />
+          <MeetupList meetups={this.state.meetups} />
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button positive content="Create Meetup" />
-          <MeetupForm />
+          <Button
+            onClick={this.handleFormOpen}
+            positive
+            content="Create Meetup"
+          />
+          {this.state.isOpen && <MeetupForm handleCancel={this.handleCancel} />}
         </Grid.Column>
       </Grid>
     );
