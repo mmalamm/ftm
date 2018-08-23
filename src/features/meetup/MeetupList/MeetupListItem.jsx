@@ -4,20 +4,17 @@ import MeetupListAttendee from "./MeetupListAttendee";
 
 export class MeetupListItem extends Component {
   render() {
+    const { meetup } = this.props;
     return (
       <Segment.Group>
         <Segment>
           <Item.Group>
             <Item>
-              <Item.Image
-                size="tiny"
-                circular
-                src="https://randomuser.me/api/portraits/women/42.jpg"
-              />
+              <Item.Image size="tiny" circular src={meetup.hostPhotoURL} />
               <Item.Content>
-                <Item.Header as="a">Event Title</Item.Header>
+                <Item.Header as="a">{meetup.title}</Item.Header>
                 <Item.Description>
-                  Hosted by <a>hosted by</a>
+                  Hosted by <a>{meetup.hostedBy}</a>
                 </Item.Description>
               </Item.Content>
             </Item>
@@ -25,19 +22,19 @@ export class MeetupListItem extends Component {
         </Segment>
         <Segment>
           <span>
-            <Icon name="clock" /> date |
-            <Icon name="marker" /> time
+            <Icon name="clock" /> {meetup.date} |<Icon name="marker" />
+            {meetup.venue}
           </span>
         </Segment>
         <Segment secondary>
           <List horizontal>
-            <MeetupListAttendee />
-            <MeetupListAttendee />
-            <MeetupListAttendee />
+            {meetup.attendees.map(attendee => (
+              <MeetupListAttendee key={attendee.id} attendee={attendee} />
+            ))}
           </List>
         </Segment>
         <Segment clearing>
-          <span>Description will go here</span>
+          <span>{meetup.description}</span>
           <Button as="a" color="teal" floated="right" content="View" />
         </Segment>
       </Segment.Group>
