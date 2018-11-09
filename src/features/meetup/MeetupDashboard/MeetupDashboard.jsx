@@ -9,7 +9,7 @@ const meetupsData = [
   {
     id: "1",
     title: "Trip to Tower of London",
-    date: "2018-03-27T11:00:00+00:00",
+    date: "2018-03-27",
     category: "culture",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -33,7 +33,7 @@ const meetupsData = [
   {
     id: "2",
     title: "Trip to Punch and Judy Pub",
-    date: "2018-03-28T14:00:00+00:00",
+    date: "2018-03-28",
     category: "drinks",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus sollicitudin ligula eu leo tincidunt, quis scelerisque magna dapibus. Sed eget ipsum vel arcu vehicula ullamcorper.",
@@ -59,18 +59,41 @@ const meetupsData = [
 class MeetupDashboard extends Component {
   state = {
     meetups: meetupsData,
-    isOpen: false
+    isOpen: false,
+    selectedMeetup: null
   };
 
   handleFormOpen = () => {
     this.setState({
-      isOpen: true
+      isOpen: true,
+      selectedMeetup: null
     });
   };
 
   handleCancel = () => {
     this.setState({
       isOpen: false
+    });
+  };
+
+  handleUpdateMeetup = updatedMeetup => {
+    this.setState({
+      meetups: this.state.meetups.map(meetup => {
+        if (meetup.id === updatedMeetup.id) {
+          return Object.assign({}, updatedMeetup);
+        } else {
+          return meetup;
+        }
+      }),
+      isOpen: false,
+      selectedMeetup: null
+    });
+  };
+
+  handleOpenMeetup = meetupToOpen => () => {
+    this.setState({
+      selectedMeetup: meetupToOpen,
+      isOpen: true
     });
   };
 
@@ -84,10 +107,14 @@ class MeetupDashboard extends Component {
     });
   };
   render() {
+    const { selectedMeetup } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
-          <MeetupList meetups={this.state.meetups} />
+          <MeetupList
+            onMeetupOpen={this.handleOpenMeetup}
+            meetups={this.state.meetups}
+          />
         </Grid.Column>
         <Grid.Column width={6}>
           <Button
@@ -99,6 +126,7 @@ class MeetupDashboard extends Component {
             <MeetupForm
               createMeetup={this.handleCreateMeetup}
               handleCancel={this.handleCancel}
+              selectedMeetup={selectedMeetup}
             />
           )}
         </Grid.Column>

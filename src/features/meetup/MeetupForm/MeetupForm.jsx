@@ -1,16 +1,34 @@
 import React, { Component } from "react";
 import { Segment, Form, Button } from "semantic-ui-react";
 
+const emptyMeetup = {
+  title: "",
+  date: "",
+  city: "",
+  venue: "",
+  hostedBy: ""
+};
+
 export class MeetupForm extends Component {
   state = {
-    meetup: {
-      title: "",
-      date: "",
-      city: "",
-      venue: "",
-      hostedBy: ""
-    }
+    meetup: emptyMeetup
   };
+
+  componentDidMount() {
+    if (this.props.selectedMeetup !== null) {
+      this.setState({
+        meetup: this.props.selectedMeetup
+      });
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.selectedMeetup !== this.props.selectedMeetup) {
+      this.setState({
+        meetup: nextProps.selectedMeetup || emptyMeetup
+      });
+    }
+  }
 
   onFormSubmit = e => {
     e.preventDefault();
