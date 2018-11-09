@@ -32,7 +32,11 @@ export class MeetupForm extends Component {
 
   onFormSubmit = e => {
     e.preventDefault();
-    this.props.createMeetup(this.state.meetup);
+    if (this.state.meetup.id) {
+      this.props.updateMeetup(this.state.meetup);
+    } else {
+      this.props.createMeetup(this.state.meetup);
+    }
   };
 
   onInputChange = e => {

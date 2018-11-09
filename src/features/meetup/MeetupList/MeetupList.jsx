@@ -3,7 +3,7 @@ import MeetupListItem from "./MeetupListItem";
 
 export class MeetupList extends Component {
   render() {
-    const { meetups, onMeetupOpen } = this.props;
+    const { meetups, onMeetupOpen, deleteMeetup } = this.props;
     return (
       <div>
         <h1>Meetup List</h1>
@@ -12,6 +12,7 @@ export class MeetupList extends Component {
             key={meetup.id}
             meetup={meetup}
             onMeetupOpen={onMeetupOpen}
+            deleteMeetup={deleteMeetup}
           />
         ))}
       </div>

@@ -106,12 +106,23 @@ class MeetupDashboard extends Component {
       isOpen: false
     });
   };
+
+  handleDeleteMeetup = meetupId => () => {
+    this.setState(prevState => {
+      const updatedMeetups = prevState.meetups.filter(e => e.id !== meetupId);
+      return {
+        meetups: updatedMeetups
+      };
+    });
+  };
+
   render() {
     const { selectedMeetup } = this.state;
     return (
       <Grid>
         <Grid.Column width={10}>
           <MeetupList
+            deleteMeetup={this.handleDeleteMeetup}
             onMeetupOpen={this.handleOpenMeetup}
             meetups={this.state.meetups}
           />
@@ -124,6 +135,7 @@ class MeetupDashboard extends Component {
           />
           {this.state.isOpen && (
             <MeetupForm
+              updateMeetup={this.handleUpdateMeetup}
               createMeetup={this.handleCreateMeetup}
               handleCancel={this.handleCancel}
               selectedMeetup={selectedMeetup}

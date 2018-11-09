@@ -4,7 +4,7 @@ import MeetupListAttendee from "./MeetupListAttendee";
 
 export class MeetupListItem extends Component {
   render() {
-    const { meetup, onMeetupOpen } = this.props;
+    const { meetup, onMeetupOpen, deleteMeetup } = this.props;
     return (
       <Segment.Group>
         <Segment>
@@ -36,7 +36,20 @@ export class MeetupListItem extends Component {
         </Segment>
         <Segment clearing>
           <span>{meetup.description}</span>
-          <Button onClick={onMeetupOpen(meetup)} as="a" color="teal" floated="right" content="View" />
+          <Button
+            onClick={deleteMeetup(meetup.id)}
+            as="a"
+            color="red"
+            floated="right"
+            content="Delete"
+          />
+          <Button
+            onClick={onMeetupOpen(meetup)}
+            as="a"
+            color="teal"
+            floated="right"
+            content="View"
+          />
         </Segment>
       </Segment.Group>
     );
