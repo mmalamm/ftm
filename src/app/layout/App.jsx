@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import MeetupDashboard from "../../features/meetup/MeetupDashboard/MeetupDashboard";
+import MeetupDashboard from "../../features/meetups/MeetupDashboard/MeetupDashboard";
 import NavBar from "../../features/nav/NavBar/NavBar";
 import { Container } from "semantic-ui-react";
 
