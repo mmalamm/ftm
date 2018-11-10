@@ -9,6 +9,7 @@ import PeopleDashboard from "../../features/user/PeopleDashboard/PeopleDashboard
 import UserDetailed from "../../features/user/UserDetailed/UserDetailedPage";
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import HomePage from "../../features/home/HomePage";
+import TestComponent from "../../features/TestComponent/TestComponent";
 
 class App extends Component {
   render() {
@@ -25,6 +26,7 @@ class App extends Component {
               <Container className="main">
                 <Switch>
                   <Route path="/meetups" component={MeetupDashboard} />
+                  <Route path="/test" component={TestComponent} />
                   <Route path="/meetup/:id" component={MeetupDetailedPage} />
                   <Route path="/people" component={PeopleDashboard} />
                   <Route path="/profile/:id" component={UserDetailed} />

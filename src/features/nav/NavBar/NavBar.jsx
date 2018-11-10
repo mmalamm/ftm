@@ -27,6 +27,7 @@ class NavBar extends Component {
             Flushing Tech Meetup
           </Menu.Item>
           <Menu.Item as={NavLink} to="/meetups" name="Meetups" />
+          <Menu.Item as={NavLink} to="/test" name="Test" />
           {authenticated && (
             <Menu.Item as={NavLink} to="/people" name="People" />
           )}
