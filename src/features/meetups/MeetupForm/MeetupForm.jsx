@@ -40,10 +40,10 @@ export class MeetupForm extends Component {
   };
 
   onInputChange = e => {
-    const newEvent = this.state.meetup;
-    newEvent[e.target.name] = e.target.value;
+    const newMeetup = this.state.meetup;
+    newMeetup[e.target.name] = e.target.value;
     this.setState({
-      meetup: newEvent
+      meetup: newMeetup
     });
   };
   render() {
