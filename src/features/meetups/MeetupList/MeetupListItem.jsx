@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 import MeetupListAttendee from "./MeetupListAttendee";
 
 export class MeetupListItem extends Component {
@@ -44,8 +45,8 @@ export class MeetupListItem extends Component {
             content="Delete"
           />
           <Button
-            onClick={onMeetupOpen(meetup)}
-            as="a"
+            as={Link}
+            to={`/meetup/${meetup.id}`}
             color="teal"
             floated="right"
             content="View"
