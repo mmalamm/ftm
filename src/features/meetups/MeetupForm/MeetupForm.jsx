@@ -1,41 +1,52 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import cuid from "cuid";
 import { Segment, Form, Button } from "semantic-ui-react";
+import { createMeetup, updateMeetup } from "../meetupActions.js";
 
-const emptyMeetup = {
-  title: "",
-  date: "",
-  city: "",
-  venue: "",
-  hostedBy: ""
+const mapState = (state, ownProps) => {
+  const meetupId = ownProps.match.params.id;
+
+  let meetup = {
+    title: "",
+    date: "",
+    city: "",
+    venue: "",
+    hostedBy: ""
+  };
+
+  if (meetupId && state.meetups.length > 0) {
+    meetup = state.meetups.find(meetup => meetup.id === meetupId);
+  }
+
+  return {
+    meetup
+  };
+};
+
+const actions = {
+  createMeetup,
+  updateMeetup
 };
 
 export class MeetupForm extends Component {
   state = {
-    meetup: emptyMeetup
+    meetup: { ...this.props.meetup }
   };
-
-  componentDidMount() {
-    if (this.props.selectedMeetup !== null) {
-      this.setState({
-        meetup: this.props.selectedMeetup
-      });
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.selectedMeetup !== this.props.selectedMeetup) {
-      this.setState({
-        meetup: nextProps.selectedMeetup || emptyMeetup
-      });
-    }
-  }
 
   onFormSubmit = e => {
     e.preventDefault();
     if (this.state.meetup.id) {
       this.props.updateMeetup(this.state.meetup);
+      this.props.history.goBack();
     } else {
-      this.props.createMeetup(this.state.meetup);
+      const newMeetup = {
+        ...this.state.meetup,
+        id: cuid(),
+        hostPhotoURL: "/assets/user.png"
+      };
+      this.props.createMeetup(newMeetup);
+      this.props.history.push("/meetups");
     }
   };
 
@@ -101,7 +112,7 @@ export class MeetupForm extends Component {
           <Button positive type="submit">
             Submit
           </Button>
-          <Button onClick={handleCancel} type="button">
+          <Button onClick={this.props.history.goBack} type="button">
             Cancel
           </Button>
         </Form>
@@ -110,4 +121,7 @@ export class MeetupForm extends Component {
   }
 }
 
-export default MeetupForm;
+export default connect(
+  mapState,
+  actions
+)(MeetupForm);

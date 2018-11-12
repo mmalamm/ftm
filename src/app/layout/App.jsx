@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import MeetupDashboard from "../../features/meetups/MeetupDashboard/MeetupDashboard";
 import NavBar from "../../features/nav/NavBar/NavBar";
 import MeetupForm from "../../features/meetups/MeetupForm/MeetupForm";
-import MeetupDetailedPage from "../../features/meetups/MeetupDetailed/MeetupDetailed";
+import MeetupDetailedPage from "../../features/meetups/MeetupDetailed/MeetupDetailedPage";
 import PeopleDashboard from "../../features/user/PeopleDashboard/PeopleDashboard";
 import UserDetailed from "../../features/user/UserDetailed/UserDetailedPage";
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
@@ -28,6 +28,7 @@ class App extends Component {
                   <Route path="/meetups" component={MeetupDashboard} />
                   <Route path="/test" component={TestComponent} />
                   <Route path="/meetup/:id" component={MeetupDetailedPage} />
+                  <Route path="/manage/:id" component={MeetupForm} />
                   <Route path="/people" component={PeopleDashboard} />
                   <Route path="/profile/:id" component={UserDetailed} />
                   <Route path="/settings" component={SettingsDashboard} />

@@ -5,7 +5,7 @@ import MeetupListAttendee from "./MeetupListAttendee";
 
 export class MeetupListItem extends Component {
   render() {
-    const { meetup, onMeetupOpen, deleteMeetup } = this.props;
+    const { meetup, deleteMeetup } = this.props;
     return (
       <Segment.Group>
         <Segment>
