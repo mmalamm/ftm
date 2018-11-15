@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { reduxForm, Field } from "redux-form";
 import cuid from "cuid";
 import { Segment, Form, Button } from "semantic-ui-react";
-import { createMeetup, updateMeetup } from "../meetupActions.js";
+import { createMeetup, updateMeetup } from "../meetupActions";
+import TextInput from "../../../app/common/form/TextInput";
 
 const mapState = (state, ownProps) => {
   const meetupId = ownProps.match.params.id;
@@ -63,6 +65,12 @@ export class MeetupForm extends Component {
     return (
       <Segment>
         <Form onSubmit={this.onFormSubmit}>
+          <Field
+            name="title"
+            type="text"
+            component={TextInput}
+            placeholder="Give your meetup a name"
+          />
           <Form.Field>
             <label>Event Title</label>
             <input
@@ -124,4 +132,4 @@ export class MeetupForm extends Component {
 export default connect(
   mapState,
   actions
-)(MeetupForm);
+)(reduxForm({ form: "meetupForm" })(MeetupForm));
