@@ -2,27 +2,23 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
 import cuid from "cuid";
-import { Segment, Form, Button } from "semantic-ui-react";
+import { Segment, Form, Button, Grid, Header } from "semantic-ui-react";
 import { createMeetup, updateMeetup } from "../meetupActions";
 import TextInput from "../../../app/common/form/TextInput";
+import TextArea from "../../../app/common/form/TextArea";
+import SelectInput from "../../../app/common/form/SelectInput";
 
 const mapState = (state, ownProps) => {
   const meetupId = ownProps.match.params.id;
 
-  let meetup = {
-    title: "",
-    date: "",
-    city: "",
-    venue: "",
-    hostedBy: ""
-  };
+  let meetup = {};
 
   if (meetupId && state.meetups.length > 0) {
     meetup = state.meetups.find(meetup => meetup.id === meetupId);
   }
 
   return {
-    meetup
+    initialValues: meetup
   };
 };
 
@@ -31,100 +27,112 @@ const actions = {
   updateMeetup
 };
 
-export class MeetupForm extends Component {
-  state = {
-    meetup: { ...this.props.meetup }
-  };
+const category = [
+  {
+    key: "drinks",
+    text: "Drinks",
+    value: "drinks"
+  },
+  {
+    key: "culture",
+    text: "Culture",
+    value: "culture"
+  },
+  {
+    key: "film",
+    text: "Film",
+    value: "film"
+  },
+  {
+    key: "food",
+    text: "Food",
+    value: "food"
+  },
+  {
+    key: "music",
+    text: "Music",
+    value: "music"
+  },
+  {
+    key: "travel",
+    text: "Travel",
+    value: "travel"
+  }
+];
 
-  onFormSubmit = e => {
-    e.preventDefault();
-    if (this.state.meetup.id) {
-      this.props.updateMeetup(this.state.meetup);
+export class MeetupForm extends Component {
+  onFormSubmit = values => {
+    if (this.props.initialValues.id) {
+      this.props.updateMeetup(values);
       this.props.history.goBack();
     } else {
       const newMeetup = {
-        ...this.state.meetup,
+        ...values,
         id: cuid(),
-        hostPhotoURL: "/assets/user.png"
+        hostPhotoURL: "/assets/user.png",
+        hostedBy: 'andrew'
       };
       this.props.createMeetup(newMeetup);
       this.props.history.push("/meetups");
     }
   };
 
-  onInputChange = e => {
-    const newMeetup = this.state.meetup;
-    newMeetup[e.target.name] = e.target.value;
-    this.setState({
-      meetup: newMeetup
-    });
-  };
   render() {
-    const { handleCancel } = this.props;
-    const { meetup } = this.state;
     return (
-      <Segment>
-        <Form onSubmit={this.onFormSubmit}>
-          <Field
-            name="title"
-            type="text"
-            component={TextInput}
-            placeholder="Give your meetup a name"
-          />
-          <Form.Field>
-            <label>Event Title</label>
-            <input
-              name="title"
-              onChange={this.onInputChange}
-              value={meetup.title}
-              placeholder="Meetup Title"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Event Date</label>
-            <input
-              name="date"
-              onChange={this.onInputChange}
-              value={meetup.date}
-              type="date"
-              placeholder="Event Date"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>City</label>
-            <input
-              name="city"
-              onChange={this.onInputChange}
-              value={meetup.city}
-              placeholder="City meetup is taking place"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Venue</label>
-            <input
-              name="venue"
-              onChange={this.onInputChange}
-              value={meetup.venue}
-              placeholder="Enter the Venue of the meetup"
-            />
-          </Form.Field>
-          <Form.Field>
-            <label>Hosted By</label>
-            <input
-              name="hostedBy"
-              onChange={this.onInputChange}
-              value={meetup.hostedBy}
-              placeholder="Enter the name of person hosting"
-            />
-          </Form.Field>
-          <Button positive type="submit">
-            Submit
-          </Button>
-          <Button onClick={this.props.history.goBack} type="button">
-            Cancel
-          </Button>
-        </Form>
-      </Segment>
+      <Grid>
+        <Grid.Column width={10}>
+          <Segment>
+            <Header sub color="teal" content="Meetup details" />
+            <Form onSubmit={this.props.handleSubmit(this.onFormSubmit)}>
+              <Field
+                name="title"
+                type="text"
+                component={TextInput}
+                placeholder="Give your meetup a name"
+              />
+              <Field
+                name="category"
+                type="text"
+                component={SelectInput}
+                options={category}
+                placeholder="What is your meetup's category?"
+              />
+              <Field
+                name="description"
+                type="text"
+                rows={3}
+                component={TextArea}
+                placeholder="Tell us about your meetup"
+              />
+              <Header sub color="teal" content="Meetup location" />
+              <Field
+                name="city"
+                type="text"
+                component={TextInput}
+                placeholder="Meetup's City"
+              />
+              <Field
+                name="venue"
+                type="text"
+                component={TextInput}
+                placeholder="Meetup Venue"
+              />
+              <Field
+                name="date"
+                type="text"
+                component={TextInput}
+                placeholder="Meetup Date"
+              />
+              <Button positive type="submit">
+                Submit
+              </Button>
+              <Button onClick={this.props.history.goBack} type="button">
+                Cancel
+              </Button>
+            </Form>
+          </Segment>
+        </Grid.Column>
+      </Grid>
     );
   }
 }
@@ -132,4 +140,4 @@ export class MeetupForm extends Component {
 export default connect(
   mapState,
   actions
-)(reduxForm({ form: "meetupForm" })(MeetupForm));
+)(reduxForm({ form: "meetupForm", enableReinitialize: true })(MeetupForm));
